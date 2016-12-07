@@ -24,7 +24,13 @@ Initial Configuration
 
 function config()
 {
-$this->mod->dir=$_POST["dname"];  //model->div has only the relative "dname" ie for example "control"
+$postdata = file_get_contents("php://input");
+$request = json_decode($postdata);
+$data = $request->text;
+if(isset($_POST["dname"])){    //model->div has only the relative "dname" ie for example "control"
+$this->mod->dir=$_POST["dname"];
+}  
+else $this->mod->dir=$data;  //for the case where the buttons are used and not submit form thingy
 chdir($this->mod->dir);  
 $this->mod->dir=getcwd();         //give abs. address to "model->div" variable ie now it has "/var/www/html/DXplore/control"
 $this->dividelist();              //to divide into lists
